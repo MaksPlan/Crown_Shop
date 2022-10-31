@@ -1,9 +1,10 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { createUserDocFromAuth, signInWithGooglePopup, createUserWithEmailAndPassword, signIn } from '../../utils/firebase/firebase.utils';
 import FormInput from '../form-input/FormInput';
 import './sign-in-form.styles.scss';
 import Button from '../button/Button';
+import { UserContext } from '../../user-context/UserContext';
 
 const defaultFormFields = {
     email: '',
@@ -14,6 +15,7 @@ const SignInForm = () => {
 
     const [formFields, setFormFields] = useState(defaultFormFields);
     const { email, password, } = formFields;
+    const {setCurrentUser} = useContext(UserContext);
 
     // console.log(formFields)
 
@@ -24,6 +26,7 @@ const SignInForm = () => {
 
     const signInWithGoogle = async () => {
         const { user } = await signInWithGooglePopup()
+        setCurrentUser(user)
         await createUserDocFromAuth(user);
 
     }
@@ -37,7 +40,8 @@ const SignInForm = () => {
         try {
 
             const { user } = await signIn(email, password);
-            console.log(user)
+
+            setCurrentUser(user)
             setFormFields(defaultFormFields); //очистка полей при успешной авторизцации
             // complitedUserAuth(user)
 
