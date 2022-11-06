@@ -1,10 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useState } from 'react';
 import { createAuthUserWithEmailAndPassword, createUserFromAuthWithPassword, complitedUserAuth } from '../../utils/firebase/firebase.utils';
 import FormInput from '../form-input/FormInput';
 import '../sign-up-form/sign-up-form.styles.scss';
 import Button from '../button/Button';
-import { UserContext } from '../../user-context/UserContext';
 
 const defaultFormFields = {
     displayName: '',
@@ -17,9 +16,7 @@ const SignUpForm = () => {
 
     const [formFields, setFormFields] = useState(defaultFormFields);
     const { displayName, email, password, confirmPassword } = formFields;
-    const { setCurrentUser } = useContext(UserContext);
 
-    // console.log(formFields)
 
     const handleOnChange = (event) => {
         const { name, value } = event.target;
@@ -36,7 +33,6 @@ const SignUpForm = () => {
         try {
 
             const { user } = await createAuthUserWithEmailAndPassword(email, password);
-            setCurrentUser(user)
             const userDocRef = await createUserFromAuthWithPassword(user, { displayName })
             setFormFields(defaultFormFields); //очистка полей при успешной авторизцации
             complitedUserAuth(user)

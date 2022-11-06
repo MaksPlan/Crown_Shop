@@ -7,15 +7,21 @@ export const UserContext = createContext({
 })
 
 
+
 const UserProvider = ({ children }) => {
-    useEffect(()=>{
-        signOutUser();
-        onAuthStateChangedListner((user) => console.log(user))
-        },[])
-        
 
     const [currentUser, setCurrentUser] = useState(null)
     const value = { currentUser, setCurrentUser }
+
+    useEffect(() => {
+        signOutUser();
+        onAuthStateChangedListner((user) => setCurrentUser(user))
+    }, [])
+
+
+   
+
+
     return <UserContext.Provider value={value}>
         {children}
     </UserContext.Provider>
