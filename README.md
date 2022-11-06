@@ -9,4 +9,4 @@
 npm i  
 npm run start
 
-'./public/img/01.png'
+![изображение](https://user-images.githubusercontent.com/93273577/200172588-461eae13-5b8a-43e2-b46b-b0c3d3626c24.png)
