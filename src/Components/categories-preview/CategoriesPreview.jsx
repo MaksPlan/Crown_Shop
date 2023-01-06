@@ -1,9 +1,8 @@
-import React, { useEffect, useContext } from 'react';
-import { useCollectionDataOnce, useDocumentDataOnce } from 'react-firebase-hooks/firestore';
-import { getQueryFB } from '../../utils/firebase/firebase.utils.js';
+import React, { useContext } from 'react';
 import { ShopProductContext } from '../../context/ShopContext.jsx';
-import Button from '../button/Button';
 import { CartContext } from '../../context/CartContext';
+import ProductCard from '../../Components/product-card/ProductCard.jsx';
+import { Link } from 'react-router-dom';
 import './categoiesPreview.styles.scss';
 
 const CategoriesPreview = () => {
@@ -15,15 +14,18 @@ const CategoriesPreview = () => {
             {loader && <span>Loading</span>}
             {shopProduct && <div >
                 {shopProduct.map((item) => {
-                    return <div className='main-container'>
-                        <h2>{item.title}</h2>
-                        <div className='flex-container'>
+                    return <div className='category-preview-container '>
+
+                        <Link to={`${item.title.toLowerCase()}`} className='title'>
+                            {item.title}
+                        </Link>
+
+
+                        <div className='preview'>
                             {item.items.map((el, i) => {
                                 if (i < 4) {
                                     return <div>
-                                        <img src={el.imageUrl} alt="img" />
-                                        <span>{el.title}</span>
-                                        <Button buttonType='inverted' onClick={() => addItemToCart(el)}>Add to Card</Button>
+                                        <ProductCard product={el} />
                                     </div>
                                 }
 
@@ -31,7 +33,7 @@ const CategoriesPreview = () => {
                         </div>
                     </div>
                 })}
-            </div>}
+            </div >}
         </>
 
     );
