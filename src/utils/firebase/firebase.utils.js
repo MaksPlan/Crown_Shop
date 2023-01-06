@@ -11,17 +11,25 @@ import {
     getFirestore,
     doc, //document
     getDoc, //get data from doc
-    setDoc
+    setDoc,
+    collection,
+    writeBatch,
+    query
 } from 'firebase/firestore';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAieju392UH-kl2CsYkY50WslOjxs2feBQ",
-    authDomain: "crwn-shop-bf775.firebaseapp.com",
-    projectId: "crwn-shop-bf775",
-    storageBucket: "crwn-shop-bf775.appspot.com",
-    messagingSenderId: "436520126514",
-    appId: "1:436520126514:web:e05cd6b7856e1249e2542b",
-    measurementId: "G-JY869MF3H7",
+    apiKey: "AIzaSyAIVRS-oXdLl-tOqfMk_aPvdbVGOWgS_lI",
+
+    authDomain: "clothes-shop-d2299.firebaseapp.com",
+  
+    projectId: "clothes-shop-d2299",
+  
+    storageBucket: "clothes-shop-d2299.appspot.com",
+  
+    messagingSenderId: "533429524682",
+  
+    appId: "1:533429524682:web:16edcb1f7fccc796173c33"
+  
 };
 
 // Initialize Firebase
@@ -34,7 +42,7 @@ provider.setCustomParameters({
     prompt: 'select_account'
 })
 
-export const auth = getAuth();
+export const auth = getAuth(app);
 export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
 export const signInWithGoogleRedirect = () => signInWithRedirect(auth, provider);
 
@@ -77,7 +85,7 @@ export const createUserFromAuthWithPassword = async (userAuth, additional) => {
 
         try { //cсоздаем документ с юзером
             await setDoc(userDocRef, {
-                displayName, email, createdAt, ...additional
+                displayName, email, createdAt, password, ...additional
             })
         } catch (error) {
             console.log('error create user: ', error.message)
@@ -110,3 +118,25 @@ export const signIn = async (email, password) => {
 export const signOutUser = async () => await signOut(auth);
 //следит за изменениями авторизации юзера
 export const onAuthStateChangedListner = (callback) => onAuthStateChanged(auth, callback); 
+
+export const addCollectionWithDocs = async (collectionKey, objects) => {
+    const collectionRef = collection(db, collectionKey)
+    const batch = writeBatch(db)
+
+    objects.forEach((obj) => {
+        const docRef = doc(collectionRef, obj.title.toLowerCase());
+        batch.set(docRef, obj);
+    })
+
+    await batch.commit();
+    console.log('done');
+}
+
+export const getQueryFB = (toggler, pathname) => {
+
+    if (toggler === 'docs') {
+        return query(doc(db, `${pathname}`))
+    } else if (toggler === 'collection') {
+        return query(collection(db, `${pathname}`))
+    }
+}

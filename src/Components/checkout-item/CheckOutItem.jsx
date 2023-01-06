@@ -8,7 +8,7 @@ const CheckOutItem = ({ item }) => {
     return (
         <div className='checkout-item-container'>
             <div className='image-container'>
-                <img src={item.imageUrl} alt="" />
+                <img src={item.imageUrl.replace(' ', '')} alt="" />
             </div>
 
             <span>{item.name}</span>

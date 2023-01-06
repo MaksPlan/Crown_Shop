@@ -33,7 +33,8 @@ const SignUpForm = () => {
         try {
 
             const { user } = await createAuthUserWithEmailAndPassword(email, password);
-            const userDocRef = await createUserFromAuthWithPassword(user, { displayName })
+
+            const userDocRef = await createUserFromAuthWithPassword(user, { displayName, password, email })
             setFormFields(defaultFormFields); //очистка полей при успешной авторизцации
             complitedUserAuth(user)
 

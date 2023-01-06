@@ -1,18 +1,37 @@
 import React, { useContext } from 'react';
 import { ShopProductContext } from '../../context/ShopContext';
 import ProductCard from '../../Components/product-card/ProductCard';
+import {useLocation } from 'react-router-dom';
+import { useDocumentDataOnce } from 'react-firebase-hooks/firestore';
+import {db} from '../../utils/firebase/firebase.utils.js';
+import {query, doc} from 'firebase/firestore';
+import CategoriesPreview from '../../Components/categories-preview/CategoriesPreview';
 import './shop.styles.scss';
 
 const Shop = () => {
+    const location = useLocation()
+    const queryDocs = location.pathname.split('/')
+    const path = queryDocs[2]; //нужна проверка по кол-ву слэшей
+    console.log(typeof path)
 
-  const { shopProduct } = useContext(ShopProductContext)
-  return <div className='shop-container'>
-
-    {
-      shopProduct.map((item) => <ProductCard key={item.id+item.name} product={item} />)
-    }
-
-  </div>;
+  // path = path ? path : "hats";
+    
+const [docs, loader, error] = useDocumentDataOnce(query(doc(db,'categories' ,`${queryDocs.length === 3 ? path : 'hats'}` )))
+ if (!path) {
+      return <CategoriesPreview />
+    } else {
+  return <>
+   
+    {  loader && 'Loading' }
+    {docs && <div className='shop-container'>
+    {  docs.items.map((item, i) => <ProductCard key={i} product={item} />)}
+ </div>
+    
+      }
+    
+  </>
+  
 };
+}
 
 export default Shop;
