@@ -2,16 +2,16 @@ import React, { useContext } from "react";
 import Card from "../Card/Card";
 import { ShopProductContext } from "../../context/ShopContext";
 
-import "./MainPage.styles.scss";
+import { MainPageContainer } from "./MainPage.styles.jsx";
 
 const MainPage = () => {
 
   const { shopProduct } = useContext(ShopProductContext);
   return (
-    <div className="categories-container">
+    <MainPageContainer>
       {shopProduct.map((item, i) => <Card key={i + item} category={item} />
       )}
-    </div>
+    </MainPageContainer>
   );
 };
 

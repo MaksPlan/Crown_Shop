@@ -3,7 +3,7 @@ import { Outlet, Link } from "react-router-dom";
 import { ReactComponent as CrwnLogo } from "../../assets/crown.svg";
 import CartIcon from "../../Components/cart-icon/CartIcon";
 import CartDropdown from "../../Components/cart-dropdown/CartDropdown";
-import "./navigation.styles.scss";
+import { NavigationCopntainer, LogoContainer, NavLinks, NavLink, CartBtn } from "./navigation.styles";
 import { UserContext } from "../../context/UserContext";
 import { signOutUser } from '../../utils/firebase/firebase.utils.js'
 
@@ -21,31 +21,31 @@ const Navigation = () => {
 
   return (
     <>
-      <div className="navigation">
-        <Link className="logo-container" to="/">
+      <NavigationCopntainer>
+        <LogoContainer to="/">
           <CrwnLogo className="logo" />
-        </Link>
+        </LogoContainer>
 
-        <div className="nav-links-container">
-          <Link className="nav-link" to="shop">
+        <NavLinks>
+          <NavLink to="shop">
             SHOP
-          </Link>
+          </NavLink>
           {currentUser ? (
-            <span className="nav-link" onClick={signOutUser}>SIGN OUT</span>
+            <NavLink as='span' onClick={signOutUser}>SIGN OUT</NavLink>
           ) : (<Link className="nav-link" to="authentication">
             SIGN IN
           </Link>)}
 
 
-          <button className="cartBTtn" onClick={() => DropdpwnToddler()}>
+          <CartBtn onClick={() => DropdpwnToddler()}>
             <CartIcon />
-          </button>
+          </CartBtn>
 
 
 
-        </div>
+        </NavLinks>
         {dropdownToggle && <CartDropdown />}
-      </div>
+      </NavigationCopntainer>
 
       <Outlet />
     </>

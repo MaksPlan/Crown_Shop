@@ -1,19 +1,21 @@
 import React from 'react';
-import './cart-item.styles.scss';
+import { CartItemContainer, ItemDatails, Img } from './cart-item.styles.jsx';
 import { useEffect } from 'react';
+
+
 const CartItem = ({ item }) => {
     const { name, quantity, price, imageUrl } = item;
 
 
     return (
-        <div className='cart-item-container'>
-            <img src={imageUrl.replace(' ', '')} alt="" />
-            <div className='item-details'>
+        <CartItemContainer>
+            <Img src={imageUrl.replace(' ', '')} alt="" />
+            <ItemDatails>
                 <span className='name'>{name}</span>
                 <span className='price'>{quantity} x {price} $</span>
-            </div>
+            </ItemDatails>
 
-        </div>
+        </CartItemContainer>
     );
 };
 

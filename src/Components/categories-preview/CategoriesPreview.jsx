@@ -3,7 +3,7 @@ import { ShopProductContext } from '../../context/ShopContext.jsx';
 import { CartContext } from '../../context/CartContext';
 import ProductCard from '../../Components/product-card/ProductCard.jsx';
 import { Link } from 'react-router-dom';
-import './categoiesPreview.styles.scss';
+import { PreviewContainer, Title, Preview } from './categoiesPreview.styles.jsx';
 
 const CategoriesPreview = () => {
     const { addItemToCart } = useContext(CartContext);
@@ -14,14 +14,14 @@ const CategoriesPreview = () => {
             {loader && <span>Loading</span>}
             {shopProduct && <div >
                 {shopProduct.map((item) => {
-                    return <div className='category-preview-container '>
+                    return <PreviewContainer>
 
-                        <Link to={`${item.title.toLowerCase()}`} className='title'>
+                        <Title to={`${item.title.toLowerCase()}`} >
                             {item.title}
-                        </Link>
+                        </Title>
 
 
-                        <div className='preview'>
+                        <Preview>
                             {item.items.map((el, i) => {
                                 if (i < 4) {
                                     return <div>
@@ -30,8 +30,8 @@ const CategoriesPreview = () => {
                                 }
 
                             })}
-                        </div>
-                    </div>
+                        </Preview>
+                    </PreviewContainer>
                 })}
             </div >}
         </>

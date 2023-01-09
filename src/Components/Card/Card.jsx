@@ -1,27 +1,28 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 
-import "../Card/Card.styles.scss";
+import { CategoryContainer, BackgroundImg, Title, CategoryBodyContainer, ShopNowBtn } from "./Card.styles.jsx";
+
+
+
 
 const Card = ({ category }) => {
   const { title, imageUrl } = category;
   const navigate = useNavigate();
 
+
+
   return (
-    <div className="category-container">
-      <div
-        className="background-image"
-        style={{
-          backgroundImage: `url(${imageUrl})`,
-        }}
-      />
+    <CategoryContainer>
+      < BackgroundImg imgUrl={imageUrl}/>
 
-      <div className="category-body-container">
-        <h2>{title}</h2>
+      <CategoryBodyContainer>
+        <Title>{title}</Title>
 
-        <button onClick={() => navigate(`/shop/${title.toLowerCase()}`)}>Shop Now</button>
-      </div>
-    </div>
+        <ShopNowBtn onClick={() => navigate(`/shop/${title.toLowerCase()}`)}>Shop Now</ShopNowBtn>
+      </CategoryBodyContainer>
+    </CategoryContainer>
   );
 };
 
